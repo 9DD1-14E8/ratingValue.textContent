@@ -1,0 +1,1 @@
+# ratingValue.textContent
