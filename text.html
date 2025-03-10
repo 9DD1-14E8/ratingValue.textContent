@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Rating with Card</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            flex-direction: column;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .rating {
+            display: flex;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .star {
+            color: gray;
+            transition: color 0.3s;
+        }
+
+        .star.active {
+            color: gold;
+        }
+
+        .rating-text {
+            font-size: 18px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .card {
+            background: #fff;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+            width: 280px;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Star Rating</h2>
+        <div class="rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <p class="rating-text">आपकी रेटिंग: <span id="ratingValue">0</span></p>
+
+        <div class="card">
+            <h3>धन्यवाद!</h3>
+            <p>आपकी रेटिंग हमारे लिए महत्वपूर्ण है।</p>
+        </div>
+    </div>
+
+    <script>
+        const stars = document.querySelectorAll('.star');
+        const ratingValue = document.getElementById('ratingValue');
+
+        // पेज लोड होते ही लोकल स्टोरेज से रेटिंग सेट करें
+        const savedRating = localStorage.getItem('userRating');
+        if (savedRating) {
+            ratingValue.textContent = savedRating;
+            setStars(savedRating);
+        }
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                let value = star.getAttribute('data-value');
+                ratingValue.textContent = value;
+
+                // लोकल स्टोरेज में रेटिंग सेव करें
+                localStorage.setItem('userRating', value);
+
+                setStars(value);
+            });
+        });
+
+        // स्टार्स को हाईलाइट करने का फंक्शन
+        function setStars(value) {
+            stars.forEach(s => s.classList.remove('active'));
+            for (let i = 0; i < value; i++) {
+                stars[i].classList.add('active');
+            }
+        }
+    </script>
+
+</body>
+</html>
